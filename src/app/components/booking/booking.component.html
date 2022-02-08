@@ -1,12 +1,7 @@
 <h4>New Booking</h4>
 
 <form [formGroup]="formGroup">
-  <mat-form-field
-    class="w-100"
-    floatLabel="auto"
-    appearance="fill"
-    color="primary"
-  >
+  <mat-form-field class="w-100" floatLabel="auto" color="primary">
     <input
       type="text"
       matInput
@@ -28,12 +23,7 @@
   </mat-form-field>
   <!--floatLabel: auto always never-->
 
-  <mat-form-field
-    class="w-100"
-    floatLabel="auto"
-    appearance="outline"
-    color="primary"
-  >
+  <mat-form-field class="w-100" floatLabel="auto" color="primary">
     <input
       type="text"
       matInput
@@ -58,12 +48,7 @@
     ></mat-error>
   </mat-form-field>
 
-  <mat-form-field
-    class="w-100"
-    floatLabel="auto"
-    appearance="outline"
-    color="primary"
-  >
+  <mat-form-field class="w-100" floatLabel="auto" color="primary">
     <mat-select formControlName="country">
       <mat-option *ngFor="let country of countries" [value]="country.id">{{
         country.countryName
@@ -78,29 +63,55 @@
     ></mat-error>
   </mat-form-field>
 
-  <mat-form-field
-    class="w-100"
-    floatLabel="auto"
-    appearance="outline"
-    color="primary"
-  >
+  <mat-form-field class="w-100" floatLabel="auto" color="primary">
     <input
       type="text"
       matInput
       placeholder="City"
       formControlName="city"
-      [errorStateMatcher]="customErrorStateMatcher"
       [matAutocomplete]="citiesAutocomplete"
     />
     <mat-label>City</mat-label>
     <mat-hint align="end">Choose or type a city</mat-hint>
     <mat-icon matPrefix>explore</mat-icon>
     <mat-autocomplete #citiesAutocomplete="matAutocomplete">
+      <mat-option *ngIf="isCitiesLoading">Loading...</mat-option>
       <mat-option *ngFor="let city of cities" [value]="city.cityName">{{
         city.cityName
       }}</mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <div class="ml mt">
+    <mat-checkbox color="primary" formControlName="receiveNewsLetters"
+      >Receive Newsletters</mat-checkbox
+    >
+  </div>
+
+  <div class="ml mt mb">
+    <mat-label>Hobbies:</mat-label>
+
+    <div>
+      <mat-checkbox
+        formControlName="allHobbies"
+        (change)="onAllHobbiesCheckBoxChange()"
+        [indeterminate]="!allHobbiesSelected() && !noHobbiesSelected()"
+        >All</mat-checkbox
+      >
+    </div>
+
+    <div formArrayName="hobbies">
+      <div *ngFor="let hobby of hobbiesFormArray.controls; let i = index">
+        <mat-checkbox
+          [formControl]="hobbiesFormArrayControl(i)"
+          color="primary"
+          (change)="onHobbyChange(i)"
+        >
+          {{ hobbies[i].hobbyName }}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
 
   <!--Stroked Buttons-->
   <div class="mb mt">
