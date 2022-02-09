@@ -25,6 +25,10 @@ export class BookingComponent implements OnInit {
     { id: 5, hobbyName: 'Watch' },
   ];
 
+  //Date picker
+  minDate: Date = new Date("1950-01-01");
+  maxDate: Date = new Date("2012-12-31");
+
   constructor(
     private countriesService: CountriesService,
     private citiesService: CitiesService
@@ -41,6 +45,8 @@ export class BookingComponent implements OnInit {
       receiveNewsLetters: new FormControl(null),
       hobbies: new FormArray([]),
       allHobbies: new FormControl(false),
+      gender: new FormControl(null, [Validators.required]),
+      dateOfBirth: new FormControl(null)
     });
 
     //add form controls to form array
@@ -155,6 +161,12 @@ export class BookingComponent implements OnInit {
       case 'country': {
         if (errorType === 'required')
           return 'You must choose a <strong>Country</strong>';
+        else return '';
+      }
+
+      case 'gender': {
+        if (errorType === 'required')
+          return 'Choose gender either <strong>Male Female or Other</strong>';
         else return '';
       }
 
